@@ -9,7 +9,7 @@ function loadWords(){
     if(nl[i].nodeName=="TR"){
       word = nl[i].childNodes[1].innerText
       exp = nl[i].childNodes[3].innerText
-      ahref = "https://www.weblio.jp/content/"+word
+      ahref = "https://dict.hjenglish.com/jp/jc/"+word
       xmlHttp.open("GET",ahref,false);
       xmlHttp.send(null);
       let res = xmlHttp.responseText.replace(/\n/g,"");
@@ -46,7 +46,7 @@ function exportRaw(name, data) {
 }
 
 function recursive(){
-  if(document.getElementsByClassName("pagination-foot active").length==0){
+  if(document.getElementsByClassName("pagination-foot active").length==0&&document.getElementsByClassName("pagination-next-page").length>0){
     window.setTimeout(function(){loadWords();nextPage();recursive()},10000);
   }else{
     loadWords();
