@@ -1,3 +1,4 @@
 *.csv
 .idea
 *.txt
+!单词本

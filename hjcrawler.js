@@ -2,16 +2,37 @@ suc=""
 fail=""
 xmlHttp = new XMLHttpRequest();
 
+function sleep(delay) {
+    for(var t = Date.now(); Date.now() - t <= d;);
+}
+
+function thisPage(){
+  foot=document.getElementsByClassName("pagination-elps-foot-hide active")[0];
+  foot.click()
+  sleep(1)
+}
 
 function loadWords(){
-  nl=document.getElementsByClassName("wordlist")[0].childNodes[0].childNodes[0].childNodes
+  try{
+  	nl=document.getElementsByClassName("wordlist")[0].childNodes[0].childNodes[0].childNodes
+  }
+  catch(err){
+  	thisPage()
+  	nl=document.getElementsByClassName("wordlist")[0].childNodes[0].childNodes[0].childNodes
+  }
   for(i=0;i<nl.length;i++){
     if(nl[i].nodeName=="TR"){
       word = nl[i].childNodes[1].innerText
       exp = nl[i].childNodes[3].innerText
       ahref = "https://dict.hjenglish.com/jp/jc/"+word
-      xmlHttp.open("GET",ahref,false);
-      xmlHttp.send(null);
+      try{
+      	xmlHttp.open("GET",ahref,false);
+      	xmlHttp.send(null);
+      }
+      catch(err){
+	  	xmlHttp.open("GET",ahref,false);
+      	xmlHttp.send(null);
+	  }	
       let res = xmlHttp.responseText.replace(/\n/g,"");
       if(res.match(/class=\"pronounces\">(.*?)<\Sdiv/)!=null){
         sound="\t" + res.match(/class=\"pronounces\">(.*?)<\Sdiv/)[1].replace(/<.*?>/g,"").replace(/^\s+/,"").replace(/\s+/g," ");
@@ -29,6 +50,7 @@ function nextPage(){
   foot=document.getElementsByClassName("pagination-next-page")[0];
   foot.click()
 }
+
 
 function fakeClick(obj) {
   var ev = document.createEvent("MouseEvents");
